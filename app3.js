@@ -3,6 +3,7 @@ const { type } = require('os')
 const app = express()
 const bodyParser = require('body-parser')
 const path = require('path')
+const { randomFillSync, randomInt } = require('crypto')
 const port = 4000
 
 
@@ -10,7 +11,7 @@ const port = 4000
 let messages = []
 
 app.get('/', (req,res)=>{
-    res.sendFile(__dirname.replace('\\app', '')+'\\frontend\\text.html')
+    res.sendFile(__dirname.replace('\\app', '')+'\\text.html')
 })
 
 function POST(){
@@ -29,6 +30,35 @@ function POST(){
 }
 
 POST()
+
+
+app.get('/messageRetriver', (req, res)=>{
+
+   
+        res.writeHead(200, {"Content-Type": "text/event-stream",
+            "Cache-Control": "no-cache",
+            Connection: "keep-alive",
+            "access-control-allow-origin": "*",
+        });
+  
+        let num = 0;
+ 
+let intervelThing = setInterval(() => {
+        res.write(Math.random().toString())
+        console.log(Math.random())
+      
+        num += 1
+        console.log(num)
+
+        if(num == 5){
+            clearInterval(intervelThing);
+            res.end();
+        }
+    
+
+    }, 1000)            
+    })
+
 
 
 app.listen(port,()=>{
