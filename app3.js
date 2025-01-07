@@ -59,8 +59,16 @@ let intervelThing = setInterval(() => {
     }, 1000)            
     })
 
-
-
+    app.get('/test', (req, res) => {
+        res.writeHead(200, {
+          'Content-Type': 'application/octet-stream', // Indicating binary data
+        });
+      
+        // First binary chunk
+        const firstChunk = Buffer.from([0x48, 0x65, 0x6c, 0x6c, 0x6f]); // "Hello" in binary
+        res.write(firstChunk);
+        res.end()
+    })
 app.listen(port,()=>{
     console.log(`server has started at ${port}`)
 })
