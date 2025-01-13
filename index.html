@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+</head>
+<body>
+<div id="chat-box">
+
+    <div id="chat"></div>
+    
+    <div id="chatTextAreaDiv"><p id="chatTextArea" role="textbox" contenteditable=""></p></div>
+
+</div>
+</body>
+<script>
+
+let EditableMsg = document.getElementById("chatTextArea")
+
+
+
+function Keydown_constructer(key1, key2, key3){
+    this.key1 = key1
+    this.key2 = key2
+    this.key3 = key3
+    this.keyEvent = function(){
+
+        EditableMsg.addEventListener("keydown", (event) => {
+        if (event.key === this.key1){
+            
+            }
+        })
+    }
+}
+
+//---------------IN CONSTRUCTION---------------------//
+
+
+
+function ReqResHTTP(message,dir){
+    
+    this.message = message;
+    this.dir = dir;
+
+    this.fetching = async () => { let response = await fetch(`http://localhost:4000/${this.dir}`, {
+            method:"POST", 
+            headers: {"Content-type": "text/plain"}, 
+            body: `Someone: ${this.message}`
+        })
+        
+        return response;
+    }
+}
+
+EditableMsg.addEventListener("keydown", (event) => {
+
+    if (event.key === "Shift") {
+        console.log('Shift');
+    }
+
+    if(event.key === "Enter"){
+
+        messageData = document.getElementById("chatTextAreaDiv").textContent
+
+        let newPost = new ReqResHTTP(messageData, 'message')
+
+        newPost.fetching()
+    }
+})
+
+
+
+async function messageRetriver(){
+    let response = await fetch('http://localhost:4000/messageRetriver', {
+        method: 'GET',
+    })
+    const foo = response.body.getReader() //~intitate more~~
+
+     //~intitate mori3nfo2fm~~
+}
+
+messageRetriver()//~ofkeofko4e~~
+
+
+
+
+
+
+
+
+</script>
+<style>
+
+:root{
+    --margin-top-bottom: 10px
+}
+
+#chat-box{
+    width: 400px;
+    padding-top: 400px;
+    height: auto;   
+    border: solid, 1px;
+    border-color: black;
+    background-color: rgb(255, 255, 255);
+    
+}
+
+#chat{
+    height: 95%;
+    background-color: white;
+
+}
+
+#chatTextArea{
+  margin: 0;
+  margin-top: var(--margin-top-bottom);
+  margin-bottom: var(--margin-top-bottom);
+  margin-left: 5px;
+  outline: none;
+
+
+
+
+
+}
+
+#chatTextAreaDiv{
+    border: black, solid, 1px;
+    border-bottom: none;
+    border-left: none;
+    border-right: none;
+}
+
+
+
+</style>
+</html>
