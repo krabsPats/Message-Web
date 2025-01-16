@@ -56,7 +56,7 @@ app.listen(port,()=>{
     console.log(`server has started at ${port}`)
 })
 
-const mainDB = new SqlConnection("localhost", 3306, "root", "blue707", "mydb");
+const mainDB = new SqlConnection();
 
 mainDB.Connect((done)=>{
     console.log(done)
