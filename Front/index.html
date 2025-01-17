@@ -4,17 +4,14 @@
 
 </head>
 <body>
-<div id="chat-box">
-
-    <div id="chat"></div>
-    
-    <div id="chatTextAreaDiv"><p id="chatTextArea" role="textbox" contenteditable=""></p></div>
-
-</div>
+<div class="chat" id="chatArea">
+    <div class="chat" id="chatText"></div>
+    <div class="chat" id="chatEditor" role="textbox" contenteditable=""></div>
+</div>    
 </body>
 <script>
 
-let EditableMsg = document.getElementById("chatTextArea")
+let EditableMsg = document.getElementById("chatEditor")
 
 
 
@@ -58,31 +55,17 @@ EditableMsg.addEventListener("keydown", async (event) => {
 
     if(event.key === "Enter"){
 
-        messageData = document.getElementById("chatTextAreaDiv").textContent
+        messageData = document.getElementById("chatEditor").textContent
 
         let newPost = new ReqResHTTP(messageData, 'message')
 
         let res =  await newPost.fetching()
 
         console.log(res)
+        document.getElementById("chatText").innerHTML += res + '<br>';
+        document.getElementById("chatEditor").innerHTML = '';
     }
 })
-
-
-
-async function messageRetriver(){
-    let response = await fetch('http://localhost:4000/messageRetriver', {
-        method: 'GET',
-    })
-    const reader = response.body.getReader();
-    const decoder = new TextDecoder('utf8');
-
-        while (true) {
-        const { value, done } = await reader.read();
-        if (done) {break;}
-        console.log("Received", decoder.decode(value));}}
-
-messageRetriver()
 
 
 
@@ -94,44 +77,21 @@ messageRetriver()
 </script>
 <style>
 
-:root{
-    --margin-top-bottom: 10px
+#chatText{
+    height: 400px;
+    width: 380px;
+    border: solid, black;
 }
 
-#chat-box{
-    width: 400px;
-    padding-top: 400px;
-    height: auto;   
-    border: solid, 1px;
-    border-color: black;
-    background-color: rgb(255, 255, 255);
-    
-}
 
-#chat{
-    height: 95%;
-    background-color: white;
-
-}
-
-#chatTextArea{
-  margin: 0;
-  margin-top: var(--margin-top-bottom);
-  margin-bottom: var(--margin-top-bottom);
-  margin-left: 5px;
-  outline: none;
-
-
-
-
-
-}
-
-#chatTextAreaDiv{
-    border: black, solid, 1px;
-    border-bottom: none;
-    border-left: none;
-    border-right: none;
+#chatEditor{
+    height: auto;
+    width: 380px;
+    border: solid, black;
+    border-top: none;
+    outline: none;
+    padding-top: 10px ;
+    padding-bottom: 10px ;
 }
 
 
